@@ -187,6 +187,7 @@ const Input = (props) => {
           <div>
             {props.activeRow !== props.row ? (
               <input
+                readOnly
                 className={`${
                   props.activeRow > props.row
                     ? backgroundColorBackup[i].backgroundColor
