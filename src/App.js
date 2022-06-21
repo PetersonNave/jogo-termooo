@@ -39,7 +39,7 @@ function App() {
           style={{
             color: "white",
             fontFamily: "Mitr",
-            marginBottom: 150,
+            marginBottom: 120,
           }}
         >
           MANUTERMO S2
