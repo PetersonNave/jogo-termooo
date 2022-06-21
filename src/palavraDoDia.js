@@ -1,5 +1,5 @@
 const PalavraDoDia = () => {
-  return "ROSTO";
+  return "FALSO";
 };
 
 export default PalavraDoDia;
