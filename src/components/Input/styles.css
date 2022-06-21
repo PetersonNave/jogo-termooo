@@ -67,7 +67,7 @@ body{
   border-bottom: 10px solid #4C4347;
   caret-color: transparent;
 }
-.activeInput:valid{
+.popUpInput{
   animation: popup 0.2s ease;
 }
 

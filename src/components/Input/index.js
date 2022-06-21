@@ -7,6 +7,8 @@ import { AuthContext } from "../../providers/auth";
 const Input = (props) => {
   const [letrasIguais, setLetrasIguais] = useState(0);
   const { keys, setKeys } = React.useContext(AuthContext);
+  const propsContext = React.useContext(AuthContext);
+  const currentRow = propsContext.activeRow == props.row;
 
   const AttDisableLetter = (lettersModify) => {
     console.log(lettersModify[0]);
@@ -65,9 +67,9 @@ const Input = (props) => {
 
   useEffect(() => {
     Valida();
-  }, [props.enterButtonClick]);
+  }, [propsContext.enterButtonClick]);
   useEffect(() => {
-    if (props.activeRow > props.row) {
+    if (propsContext.activeRow > props.row) {
       for (var i = 0; i < backgroundColorInputStyle.length; i++) {
         if (
           backgroundColorInputStyle[i].backgroundColor !== "greenBackground"
@@ -75,17 +77,17 @@ const Input = (props) => {
           return;
         }
       }
-      alert("ganhou");
+      alert("PARABÉNS! VOCÊ VENCEU");
     }
-  }, [props.activeRow]);
+  }, [propsContext.activeRow]);
 
   function Valida() {
     const palavra =
-      props.inputContent[0].content +
-      props.inputContent[1].content +
-      props.inputContent[2].content +
-      props.inputContent[3].content +
-      props.inputContent[4].content;
+      propsContext.inputContent[0].content +
+      propsContext.inputContent[1].content +
+      propsContext.inputContent[2].content +
+      propsContext.inputContent[3].content +
+      propsContext.inputContent[4].content;
 
     if (palavra.length === 5) {
       VerificaSePalavraExiste(palavra);
@@ -94,7 +96,7 @@ const Input = (props) => {
   }
 
   const VerificaSePalavraExiste = (palavra) => {
-    if (props.activeRow == props.row) {
+    if (currentRow) {
       api
         .get(`/${palavra}`)
         .then((response) => {
@@ -107,74 +109,70 @@ const Input = (props) => {
   };
 
   function VerificaSeTemLetraIgual(palavra) {
-    if (props.activeRow == props.row) {
-      var palavraDoDia = PalavraDoDia();
-      var palavraUpper = palavra.toUpperCase();
-      const palavraUpperCortada = palavraUpper.split("");
-      const backup = backgroundColorInputStyle;
-      const disableKeys = [];
-      const almostKeys = [];
-      const correctKeys = [];
-      for (let i = 0; i < palavraDoDia.length; i++) {
-        const letraAtual = palavraUpperCortada.shift();
-        console.log("fui chamado");
-        const indexDaPalavraDigitada = palavraDoDia.indexOf(letraAtual);
-        if (indexDaPalavraDigitada == -1) {
-          backup[i] = { backgroundColor: "blackBackground" };
-          setBackgroundColorInputStyle(backup);
-          disableKeys.push(letraAtual);
-          continue;
-        }
-
-        if (letraAtual === palavraDoDia[i]) {
-          setLetrasIguais(letrasIguais + 1);
-          backup[i] = {
-            backgroundColor: "greenBackground",
-          };
-          correctKeys.push(letraAtual);
-        } else {
-          backup[i] = {
-            backgroundColor: "yellowBackground",
-          };
-
-          almostKeys.push(letraAtual);
-        }
-        palavraDoDia = palavraDoDia.replace(letraAtual, " ");
+    var palavraDoDia = PalavraDoDia();
+    var palavraUpper = palavra.toUpperCase();
+    const palavraUpperCortada = palavraUpper.split("");
+    const backup = backgroundColorInputStyle;
+    const disableKeys = [];
+    const almostKeys = [];
+    const correctKeys = [];
+    for (let i = 0; i < palavraDoDia.length; i++) {
+      const letraAtual = palavraUpperCortada.shift();
+      console.log("fui chamado");
+      const indexDaPalavraDigitada = palavraDoDia.indexOf(letraAtual);
+      if (indexDaPalavraDigitada == -1) {
+        backup[i] = { backgroundColor: "blackBackground" };
         setBackgroundColorInputStyle(backup);
+        disableKeys.push(letraAtual);
+        continue;
       }
 
-      setTimeout(() => {
-        setBackgroundColorBackup(backgroundColorInputStyle);
-        AttDisableLetter(disableKeys);
-        AttAlmostLetter(almostKeys);
-        AttCorrectLetter(correctKeys);
-        props.setActiveRow(props.activeRow + 1);
-      }, 1000);
-      setTimeout(() => {
-        props.SetInputContent([
-          {
-            content: "",
-          },
-          {
-            content: "",
-          },
-          {
-            content: "",
-          },
-          {
-            content: "",
-          },
-          {
-            content: "",
-          },
-        ]);
-      }, 1000);
+      if (letraAtual === palavraDoDia[i]) {
+        setLetrasIguais(letrasIguais + 1);
+        backup[i] = {
+          backgroundColor: "greenBackground",
+        };
+        correctKeys.push(letraAtual);
+      } else {
+        backup[i] = {
+          backgroundColor: "yellowBackground",
+        };
+
+        almostKeys.push(letraAtual);
+      }
+      palavraDoDia = palavraDoDia.replace(letraAtual, " ");
+      setBackgroundColorInputStyle(backup);
     }
+
+    setTimeout(() => {
+      setBackgroundColorBackup(backgroundColorInputStyle);
+      AttDisableLetter(disableKeys);
+      AttAlmostLetter(almostKeys);
+      AttCorrectLetter(correctKeys);
+      propsContext.setActiveRow(propsContext.activeRow + 1);
+      propsContext.SetInputContent([
+        {
+          content: "",
+        },
+        {
+          content: "",
+        },
+        {
+          content: "",
+        },
+        {
+          content: "",
+        },
+        {
+          content: "",
+        },
+      ]);
+    }, 1000);
   }
 
   const MudarText = (e, index) => {
     console.log(e.target.value);
-    const backup = props.inputContent;
+    const backup = propsContext.inputContent;
     backup[index].content = e.target.value;
 
     return backup;
@@ -183,13 +181,13 @@ const Input = (props) => {
   return (
     <div>
       <div className="inputArea">
-        {props.inputContent.map((item, i) => (
+        {propsContext.inputContent.map((item, i) => (
           <div>
-            {props.activeRow !== props.row ? (
+            {propsContext.activeRow !== props.row ? (
               <input
                 readOnly
                 className={`${
-                  props.activeRow > props.row
+                  propsContext.activeRow > props.row
                     ? backgroundColorBackup[i].backgroundColor
                     : ""
                 } disableInput`}
@@ -202,13 +200,15 @@ const Input = (props) => {
                   backgroundColorBackup[i].backgroundColor
                     ? `${backgroundColorBackup[i].backgroundColor}`
                     : `${backgroundColorInputStyle[i].backgroundColor}`
-                } activeInput ${props.activeInput === i ? "focusInput" : ""}`}
+                } activeInput ${
+                  propsContext.activeInput === i ? "focusInput" : ""
+                }  ${item.content !== "" ? "popUpInput" : ""} `}
                 value={item.content}
                 type="text"
                 maxLength={1}
-                onChange={(e) => props.SetInputContent(MudarText(e, i))}
+                onChange={(e) => propsContext.SetInputContent(MudarText(e, i))}
                 onClick={() => {
-                  props.setActiveInput(i);
+                  propsContext.setActiveInput(i);
                 }}
               ></input>
             )}

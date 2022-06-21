@@ -5,22 +5,21 @@ import "./styles.css";
 
 const Keyboard = (props) => {
   const { keys, setKeys } = React.useContext(AuthContext);
-
-  const [position, setPosition] = useState(1);
+  const propsContext = React.useContext(AuthContext);
   const MudarText = (letter, index) => {
     if (index < 5) {
-      const backup = props.inputContent;
+      const backup = propsContext.inputContent;
       backup[index].content = letter;
 
       if (letter !== "") {
-        props.setActiveInput(props.activeInput + 1);
+        propsContext.setActiveInput(propsContext.activeInput + 1);
       } else {
-        props.setActiveInput(props.activeInput - 1);
+        propsContext.setActiveInput(propsContext.activeInput - 1);
       }
 
       return backup;
     }
-    return props.inputContent;
+    return propsContext.inputContent;
   };
 
   return (
@@ -30,8 +29,8 @@ const Keyboard = (props) => {
           <button
             className={`letters ${item.className}`}
             onClick={() =>
-              props.SetInputContent(
-                MudarText(item.letter, props.activeInput, item.delete)
+              propsContext.SetInputContent(
+                MudarText(item.letter, propsContext.activeInput, item.delete)
               )
             }
           >
@@ -49,7 +48,7 @@ const Keyboard = (props) => {
           style={{ width: 96, marginLeft: 5 }}
           className="letters"
           onClick={() => {
-            props.setEnterButtonClick(!props.enterButtonClick);
+            propsContext.setEnterButtonClick(!propsContext.enterButtonClick);
           }}
         >
           ENTER

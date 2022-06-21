@@ -3,6 +3,27 @@ import React, { useState } from "react";
 export const AuthContext = React.createContext({});
 
 export const AuthProvider = (props) => {
+  const [activeInput, setActiveInput] = useState(0);
+  const [enterButtonClick, setEnterButtonClick] = useState(false);
+  const [activeRow, setActiveRow] = useState(0);
+  const [inputContent, SetInputContent] = useState([
+    {
+      content: "",
+    },
+    {
+      content: "",
+    },
+    {
+      content: "",
+    },
+    {
+      content: "",
+    },
+    {
+      content: "",
+    },
+  ]);
+
   const [keys, setKeys] = useState([
     {
       letter: "Q",
@@ -114,7 +135,20 @@ export const AuthProvider = (props) => {
     },
   ]);
   return (
-    <AuthContext.Provider value={{ keys, setKeys }}>
+    <AuthContext.Provider
+      value={{
+        keys,
+        setKeys,
+        activeInput,
+        setActiveInput,
+        enterButtonClick,
+        setEnterButtonClick,
+        activeRow,
+        setActiveRow,
+        inputContent,
+        SetInputContent,
+      }}
+    >
       {props.children}
     </AuthContext.Provider>
   );
