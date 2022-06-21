@@ -196,7 +196,7 @@ const Input = (props) => {
             ) : (
               <input
                 required
-                readonly
+                readOnly
                 className={`${
                   backgroundColorBackup[i].backgroundColor
                     ? `${backgroundColorBackup[i].backgroundColor}`
