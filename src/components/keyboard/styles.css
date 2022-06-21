@@ -1,0 +1,37 @@
+.letters-area{
+    display: flex;
+    flex-direction: row;
+    flex-wrap: wrap;
+    gap: 5px;
+    width: 100%;
+    justify-content: center;
+    position: absolute;
+    bottom: 0;
+    left: 0;
+}
+.disableKey{
+    background-color: #594B4F !important;
+    color: #6E5C62 !important;
+}
+.almostKey{
+    background-color:  #d3ad69 !important;}
+.correctKey{
+    background-color: #3aa394 !important;
+}
+.letters{
+    background-color: #4C4347;
+    font-family: 'Mitr';
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    border-radius: 8%;
+    font-weight: 500;
+    font-family: 'Mitr', sans-serif;
+    cursor: pointer;
+    border: none;
+    color: #FAFAFF;
+    outline: none;
+    touch-action: manipulation;
+    width: 34px;
+    height: 70px;
+}

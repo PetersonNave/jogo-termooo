@@ -1,0 +1,16 @@
+@import url('https://fonts.googleapis.com/css2?family=Mitr:wght@600&display=swap');
+
+*{
+  padding: 0;
+  margin: 0; 
+  box-sizing: border-box;
+}
+.App{
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+ max-width: 414px;
+
+ 
+}
