@@ -196,6 +196,7 @@ const Input = (props) => {
             ) : (
               <input
                 required
+                onFocus="blur()"
                 className={`${
                   backgroundColorBackup[i].backgroundColor
                     ? `${backgroundColorBackup[i].backgroundColor}`
