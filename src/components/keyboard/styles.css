@@ -35,3 +35,6 @@
     width: 34px;
     height: 70px;
 }
+@media (max-width: 376px){
+    .letters{width: 30px; height: 50px;}
+}
